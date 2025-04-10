@@ -1,0 +1,686 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Nqabeni Tech, About Us, Technology Solutions, South Africa">
+    <meta name="description" content="Learn about Nqabeni Tech Innovations - Our mission, vision, team, and values">
+    <meta name='copyright' content='Nqabeni Tech Innovations'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Title -->
+    <title>About Us | Nqabeni Tech Innovations</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="css/animate.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+       /* ===== Global Styles ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.btn {
+  display: inline-block;
+  background: #4da6e7;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #3a8bc8;
+  transform: translateY(-2px);
+}
+
+/* ===== Compact Header Styles ===== */
+.header {
+  padding: 15px 0;
+  background: white;
+  box-shadow: 0 2px 15px rgba(0, 33, 71, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.main-menu ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-menu li {
+  margin: 0 15px;
+  position: relative;
+}
+
+.main-menu a {
+  color: #002147;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 5px 0;
+  position: relative;
+}
+
+.main-menu a:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #4da6e7;
+  transition: width 0.3s ease;
+}
+
+.main-menu a:hover:after,
+.main-menu .active a:after {
+  width: 100%;
+}
+
+/* ===== Compact Hero Section ===== */
+.about-hero {
+  background: linear-gradient(135deg, #002147 0%, #4da6e7 100%);
+  padding: 80px 0 50px;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+.about-hero:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('img/dots-pattern.png') repeat;
+  opacity: 0.1;
+}
+
+.about-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.about-hero p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 25px;
+  opacity: 0.9;
+}
+
+/* ===== About Content Section ===== */
+.about-section {
+  padding: 80px 0;
+}
+
+.about-img {
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 33, 71, 0.1);
+  overflow: hidden;
+}
+
+.about-content h2 {
+  color: #002147;
+  font-weight: 700;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.about-content h2:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 60px;
+  height: 3px;
+  background: #4da6e7;
+}
+
+/* ===== Mission/Vision Section ===== */
+.mission-vision {
+  background: #f9fafc;
+  padding: 80px 0;
+}
+
+.mission-box, 
+.vision-box {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 33, 71, 0.05);
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.mission-box:hover, 
+.vision-box:hover {
+  transform: translateY(-5px);
+}
+
+.mission-box i, 
+.vision-box i {
+  font-size: 40px;
+  color: #4da6e7;
+  margin-bottom: 15px;
+}
+
+/* ===== Team Section ===== */
+.team-section {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.team-member {
+  margin-bottom: 30px;
+}
+
+.team-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 8px 25px rgba(0, 33, 71, 0.1);
+  margin: 0 auto 20px;
+}
+
+/* ===== Values Section ===== */
+.values-section {
+  background: #002147;
+  color: white;
+  padding: 80px 0;
+}
+
+.value-box {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 8px;
+  height: 100%;
+  border-left: 3px solid #4da6e7;
+  transition: transform 0.3s ease;
+}
+
+.value-box:hover {
+  transform: translateY(-5px);
+}
+
+.value-box h4 {
+  color: #4da6e7;
+  margin-bottom: 15px;
+}
+
+.value-box i {
+  font-size: 30px;
+  margin-bottom: 15px;
+}
+
+/* ===== CTA Section ===== */
+.cta-section {
+  background: linear-gradient(135deg, #4da6e7 0%, #002147 100%);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* ===== Footer Styles ===== */
+.footer {
+  background: #002147;
+  color: white;
+  padding: 60px 0 0;
+}
+
+.footer a {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: #4da6e7;
+  text-decoration: none;
+}
+
+.footer-links h4 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.copyright {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===== Responsive Styles ===== */
+@media (max-width: 992px) {
+  .header-inner {
+    flex-direction: column;
+  }
+  
+  .logo {
+    margin-bottom: 15px;
+  }
+  
+  .main-menu ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .about-hero h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 60px 0 30px;
+  }
+  
+  .about-hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .team-img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .mission-box, 
+  .vision-box {
+    margin-bottom: 20px;
+  }
+}
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator"> 
+                <svg width="16px" height="12px">
+                    <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                    <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    
+    <!-- Header Area -->
+    <header class="header">
+        <!-- Header Inner -->
+        <div class="header-inner">
+            <div class="container">
+                <div class="inner">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-12">
+                            <!-- Start Logo -->
+                            <div class="logo">
+                                <a href="index.html">
+                                    <img src="img/newlogo.png" alt="Nqabeni Tech Innovations">
+                                </a>
+                            </div>
+                            <!-- End Logo -->
+                            <!-- Mobile Nav -->
+                            <div class="mobile-nav"></div>
+                            <!-- End Mobile Nav -->
+                        </div>
+                        <div class="col-lg-7 col-md-9 col-12">
+                            <!-- Main Menu -->
+                            <div class="main-menu">
+                                <nav class="navigation">
+                                    <ul class="nav menu">
+                                        <li class="active"><a href="About us.html">About Us</a></li>
+                                        <li><a href="Our services.html">Services</a></li>
+                                       
+                                        <li><a href="contact.html">Contact Us</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!--/ End Main Menu -->
+                        </div>
+                        <div class="col-lg-2 col-12">
+                            <div class="">
+                                <a href="book-consultation.html" class="btn">Book Consultation</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Header Inner -->
+    </header>
+    <!-- End Header Area -->
+    
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center">About Nqabeni Tech Innovations</h1>
+                    <p class="text-center">Driving digital transformation through innovative technology solutions tailored for African businesses</p>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Hero Section -->
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-img">
+                        <img src="img/sanez.jpg" alt="Nqabeni Tech Team" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-content">
+                        <h2>Our Story</h2>
+                        <p>Founded in 2024 in Durban, South Africa, Nqabeni Tech Innovations was born from a passion for solving complex business challenges through technology. Our journey began with a small team of dedicated engineers and has grown into a thriving technology solutions provider serving clients across multiple industries.</p>
+                        <p>We specialize in bridging the gap between business needs and technological capabilities, delivering customized solutions that drive efficiency, innovation, and growth. Our approach combines global best practices with local market understanding to create impactful digital transformations.</p>
+                        <p>From our humble beginnings, we've expanded our expertise across legal tech, data analytics, embedded systems, and AI solutions, consistently pushing the boundaries of what's possible with technology in the African context.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End About Section -->
+
+    <!-- Mission Vision Section -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="mission-box">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Our Mission</h3>
+                        <p>To empower African businesses through innovative technology solutions that solve real-world challenges, enhance operational efficiency, and drive sustainable growth in the digital economy.</p>
+                        <p>We are committed to delivering excellence by combining technical expertise with deep industry knowledge to create tailored solutions that give our clients a competitive edge.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="vision-box">
+                        <i class="fas fa-eye"></i>
+                        <h3>Our Vision</h3>
+                        <p>To be Africa's leading technology innovator, recognized for transforming businesses and industries through cutting-edge solutions that harness the power of data, automation, and intelligent systems.</p>
+                        <p>We envision a future where African enterprises leverage technology to compete globally while addressing local challenges with locally-developed solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Mission Vision Section -->
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2>Meet Our Leadership Team</h2>
+                    <p>The brilliant minds driving innovation at Nqabeni Tech</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team-1.jpg" alt="CEO" class="team-img">
+                        <h4>Sanelisekile Nqabeni</h4>
+                        <p>Founder & CEO</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team-2.jpg" alt="CTO" class="team-img">
+                        <h4>Kwenzeka Sibisi</h4>
+                        <p>Chief Finance Officer</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team-3.jpg" alt="Data Lead" class="team-img">
+                        <h4>Ntuthuko Ncatayi</h4>
+                        <p>Head of Data Analytics</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <img src="img/team-4.jpg" alt="Legal Tech Lead" class="team-img">
+                        <h4>Nomfundo Mthethwa</h4>
+                        <p>Legal Tech Solutions Lead</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Team Section -->
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2>Our Core Values</h2>
+                    <p>The principles that guide everything we do</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-box">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Innovation</h4>
+                        <p>We constantly push boundaries to develop creative solutions that address our clients' unique challenges.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-box">
+                        <i class="fas fa-handshake"></i>
+                        <h4>Integrity</h4>
+                        <p>We build trust through transparency, honesty, and ethical business practices in all our engagements.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-box">
+                        <i class="fas fa-users"></i>
+                        <h4>Collaboration</h4>
+                        <p>We believe in the power of teamwork, both within our organization and with our clients and partners.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="value-box">
+                        <i class="fas fa-trophy"></i>
+                        <h4>Excellence</h4>
+                        <p>We are committed to delivering exceptional quality and continuous improvement in all our solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Values Section -->
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Ready to Transform Your Business with Technology?</h2>
+                    <p class="mb-4">Discover how our innovative solutions can drive your business forward</p>
+                    <a href="contact.html" class="btn btn-light mr-3">Contact Us</a>
+                    <a href="Our services.html" class="btn btn-outline-light">Our Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End CTA Section -->
+
+    <!-- Footer Area -->
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="row">
+                <!-- First Column -->
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="footer-about">
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="img/newlogo.png" alt="Nqabeni Tech" class="logo-symbol">
+                                <span>Nqabeni Tech</span>
+                            </a>
+                        </div>
+                        <p>Innovative technology solutions to help your business grow and succeed in the digital world.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Column -->
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="footer-links">
+                        <h3>Services</h3>
+                        <ul>
+                            <li><a href="#">Legal Tech Solutions</a></li>
+                            <li><a href="#">Power BI Analytics</a></li>
+                            <li><a href="#">Embedded Systems</a></li>
+                            <li><a href="#">AI & ML Solutions</a></li>
+                            <li><a href="#">Custom Software</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Third Column -->
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="footer-links">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="#">Our Team</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Fourth Column -->
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="footer-contact">
+                        <h3>Contact Us</h3>
+                        <p><i class="fa fa-map-marker"></i> 6 Robinson Place<br>Musgrave, 4001</p>
+                        <p><i class="fa fa-envelope"></i> support@nqabenitech.com</p>
+                        <p><i class="fa fa-phone"></i> +27 83 465 7736</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="copyright">
+                        <p>&copy; 2024 Nqabeni Tech Innovations. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/ End Footer Area -->
+    
+    <!-- jquery Min JS -->
+    <script src="js/jquery.min.js"></script>
+    <!-- jquery Migrate JS -->
+    <script src="js/jquery-migrate-3.0.0.js"></script>
+    <!-- jquery Ui JS -->
+    <script src="js/jquery-ui.min.js"></script>
+    <!-- Easing JS -->
+    <script src="js/easing.js"></script>
+    <!-- Popper JS -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+</body>
+</html>

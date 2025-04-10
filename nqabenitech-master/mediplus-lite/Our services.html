@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | Nqabeni Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a76d1;
+            --primary-dark: #0d5ca9;
+            --secondary: #2d3748;
+            --light: #f7fafc;
+            --gray: #e2e8f0;
+            --dark-gray: #4a5568;
+            --success: #48bb78;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--light);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Services Section */
+        .services-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--dark-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 25px;
+        }
+        
+        .service-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .service-content p {
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+        }
+        
+        .service-features {
+            margin-bottom: 20px;
+        }
+        
+        .service-features li {
+            list-style: none;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .service-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+        
+        .learn-more {
+            display: inline-block;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .learn-more:hover {
+            color: var(--primary-dark);
+        }
+        
+        .learn-more i {
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .learn-more:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--secondary);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-column p {
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .footer-links li {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Nqabeni<span>Tech</span></a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="About us.html">About us</a>
+                    <a href="#" class="active">Services</a>
+                   
+                    <a href="contact.html">Contact</a>
+                </div>
+                <a href="index.html" class="cta-button">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Our Technology Services</h1>
+            <p>Innovative solutions tailored to your business needs. We help you leverage technology to achieve your goals.</p>
+            <a href="#services" class="cta-button">Explore Services</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>What We Offer</h2>
+                <p>We provide comprehensive technology services to help your business thrive in the digital age.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Legal Tech">
+                    </div>
+                    <div class="service-content">
+                        <h3>Legal Tech Solutions (Mose.V)</h3>
+                        <p>Transform your legal practice with our cutting-edge legal technology platform designed to streamline case management and improve efficiency.</p>
+                        
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Case management system</li>
+                            <li><i class="fas fa-check"></i> Document automation</li>
+                            <li><i class="fas fa-check"></i> Legal analytics</li>
+                            <li><i class="fas fa-check"></i> Client portal</li>
+                        </ul>
+                        
+                        <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Web Development">
+                    </div>
+                    <div class="service-content">
+                        <h3>Custom Web Applications</h3>
+                        <p>Build powerful, scalable web applications tailored to your specific business requirements and workflows.</p>
+                        
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Responsive design</li>
+                            <li><i class="fas fa-check"></i> Custom functionality</li>
+                            <li><i class="fas fa-check"></i> API integrations</li>
+                            <li><i class="fas fa-check"></i> Ongoing support</li>
+                        </ul>
+                        
+                        <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Embedded Systems">
+                    </div>
+                    <div class="service-content">
+                        <h3>Embedded Systems & IoT</h3>
+                        <p>Develop smart, connected devices and IoT solutions to bring your physical products into the digital world.</p>
+                        
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Hardware prototyping</li>
+                            <li><i class="fas fa-check"></i> Firmware development</li>
+                            <li><i class="fas fa-check"></i> Sensor integration</li>
+                            <li><i class="fas fa-check"></i> Cloud connectivity</li>
+                        </ul>
+                        
+                        <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AI & ML">
+                    </div>
+                    <div class="service-content">
+                        <h3>AI & Machine Learning</h3>
+                        <p>Leverage artificial intelligence to gain insights, automate processes, and create intelligent applications.</p>
+                        
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Predictive analytics</li>
+                            <li><i class="fas fa-check"></i> Computer vision</li>
+                            <li><i class="fas fa-check"></i> Natural language processing</li>
+                            <li><i class="fas fa-check"></i> Custom model training</li>
+                        </ul>
+                        
+                        <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Business Intelligence">
+                    </div>
+                    <div class="service-content">
+                        <h3>Power BI & Analytics</h3>
+                        <p>Turn your data into actionable insights with powerful business intelligence dashboards and reports.</p>
+                        
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Interactive dashboards</li>
+                            <li><i class="fas fa-check"></i> Data visualization</li>
+                            <li><i class="fas fa-check"></i> KPI tracking</li>
+                            <li><i class="fas fa-check"></i> Automated reporting</li>
+                        </ul>
+                        
+                        <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="IT Consulting">
+                    </div>
+                    <div class="service-content">
+                        <h3>IT Consulting</h3>
+                        <p>Strategic technology guidance to help you make the right decisions for your business infrastructure.</p>
+                        
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Cloud migration</li>
+                            <li><i class="fas fa-check"></i> Cybersecurity assessment</li>
+                            <li><i class="fas fa-check"></i> Digital transformation</li>
+                            <li><i class="fas fa-check"></i> Technology roadmap</li>
+                        </ul>
+                        
+                        <a href="#" class="learn-more">Learn more <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>Our team of experts is ready to discuss your project and provide tailored technology solutions.</p>
+            <a href="book consultation.html" class="cta-button">Book Consultation</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Nqabeni Tech</h3>
+                    <p>Innovative technology solutions to help your business grow and succeed in the digital world.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Legal Tech</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Embedded Systems</a></li>
+                        <li><a href="#">AI & ML</a></li>
+                        <li><a href="#">Business Intelligence</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p>6 Robinson Place<br>Musgrave, 4001</p>
+                    <p>Email: support@nqabenitech.com<br>Phone: +27 83 465 7736</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Nqabeni Tech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
