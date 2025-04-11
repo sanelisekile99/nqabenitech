@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team | Nqabeni Tech Innovations</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #002147;
+            --secondary: #4da6e7;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 33, 71, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin: 0 15px;
+        }
+        
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover:after,
+        nav .active a:after {
+            width: 100%;
+        }
+        
+        /* Team Hero Section */
+        .team-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .team-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Team Section */
+        .team-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 33, 71, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .team-info {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .team-info h3 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .team-info p.position {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .team-social a {
+            color: var(--primary);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(77, 166, 231, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .team-social a:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* Departments Section */
+        .departments {
+            background: var(--light);
+            padding: 80px 0;
+        }
+        
+        .dept-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .dept-tab {
+            padding: 10px 25px;
+            background: white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+        }
+        
+        .dept-tab.active,
+        .dept-tab:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-col li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s ease;
+        }
+        
+        .footer-col a:hover {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .team-hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="img/newlogo.png" alt="Nqabeni Tech Innovations">
+                    </a>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="About us.html">About</a></li>
+                        <li class="active"><a href="team.html">Our Team</a></li>
+                        <li><a href="Our services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <a href="book consultation.html" class="btn">Book Consultation</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Team Hero Section -->
+    <section class="team-hero">
+        <div class="container">
+            <h1>Meet Our Team</h1>
+            <p>The brilliant minds behind Nqabeni Tech Innovations</p>
+        </div>
+    </section>
+
+    <!-- Leadership Team -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Leadership Team</h2>
+                <p>Guiding our company with vision and expertise</p>
+            </div>
+            
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card">
+                    <img src="img/team/ceo.jpg" alt="Sanelisekile Nqabeni" class="team-img">
+                    <div class="team-info">
+                        <h3>Sanelisekile Nqabeni</h3>
+                        <p class="position">Founder & CEO</p>
+                        <p> Sanelisekile leads our strategic vision and growth.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="team-card">
+                    <img src="img/team/cto.jpg" alt="Mthokozisi Mthembu" class="team-img">
+                    <div class="team-info">
+                        <h3>Mthokozisi Mthembu</h3>
+                        <p class="position">Chief Technology Officer</p>
+                        <p>Our tech visionary with expertise in AI, machine learning and system architecture.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="team-card">
+                    <img src="img/team/cfo.jpg" alt="Thobani Gabuza" class="team-img">
+                    <div class="team-info">
+                        <h3>Thobani Gabuza</h3>
+                        <p class="position">Chief Financial Officer</p>
+                        <p>Financial strategist ensuring sustainable growth and operational efficiency.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments Section -->
+    <section class="departments">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Departments</h2>
+                <p>Specialized teams delivering excellence</p>
+            </div>
+            
+            <div class="dept-tabs">
+                <div class="dept-tab active">Data Analytics</div>
+                <div class="dept-tab">Software Development</div>
+                <div class="dept-tab">Embedded Systems</div>
+                <div class="dept-tab">AI Research</div>
+                <div class="dept-tab">Legal Tech</div>
+            </div>
+            
+            <div class="team-grid">
+                <!-- Department Team Member 1 -->
+                <div class="team-card">
+                    <img src="img/team/data1.jpg" alt="Ntuthuko Ncatayi" class="team-img">
+                    <div class="team-info">
+                        <h3>Ntuthuko Ncatayi</h3>
+                        <p class="position">Lead Data Scientist</p>
+                        <p>Transforming raw data into actionable business insights.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-kaggle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Department Team Member 2 -->
+                <div class="team-card">
+                    <img src="img/team/dev1.jpg" alt="Siyathokoza Malunga" class="team-img">
+                    <div class="team-info">
+                        <h3>Siyathokoza  Malunga</h3>
+                        <p class="position">Lead  
+                              Developer</p>
+                        <p>Full-stack developer specializing in enterprise solutions.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fab fa-stack-overflow"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Department Team Member 3 -->
+                <div class="team-card">
+                    <img src="img/team/iot1.jpg" alt="Tawananyasha Mukumbareza" class="team-img">
+                    <div class="team-info">
+                        <h3>Tawananyasha Mukumbareza</h3>
+                        <p class="position">IoT Engineer</p>
+                        <p>Designing smart devices for industrial applications.</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="img/logo-white.png" alt="Nqabeni Tech" width="180">
+                    <p>Innovative technology solutions for your business growth.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="team.html">Our Team</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html#legal-tech">Legal Tech</a></li>
+                        <li><a href="services.html#data-analytics">Data Analytics</a></li>
+                        <li><a href="services.html#web-dev">Web Development</a></li>
+                        <li><a href="services.html#ai-ml">AI & ML Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <p>6 Robinson Place<br>
+                    Musgrave, Durban 4001<br>
+                    support@nqabenitech.com<br>
+                    +27 83 465 7736</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Nqabeni Tech Innovations. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
