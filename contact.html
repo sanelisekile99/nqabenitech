@@ -27,8 +27,28 @@
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="css/responsive.css">
         
-        <!-- Footer CSS -->
+        <!-- Google Maps Place Picker Styles -->
         <style>
+            .place-picker-container {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                z-index: 1;
+                width: 80%;
+                max-width: 300px;
+            }
+            
+            #map-container {
+                width: 100%;
+                height: 400px;
+                position: relative;
+            }
+            
+            gmp-map {
+                width: 100%;
+                height: 100%;
+            }
+            
             /* Footer Styles */
             .footer {
                 background: #002147;
@@ -212,7 +232,8 @@
                                 <div class="main-menu">
                                     <nav class="navigation">
                                         <ul class="nav menu">
-                                            <li><a href="#">Our Team </a></li>
+                                            <li><a href="index.html">Home </a></li>
+                                            <li><a href="Our team.html">Our Team </a></li>
                                             <li><a href="Our services.html">Services </a></li>
                                             <li><a href="contact.html">Contact Us</a></li>
                                         </ul>
@@ -258,10 +279,20 @@
                 <div class="inner">
                     <div class="row"> 
                         <div class="col-lg-6">
-                            <div class="contact-us-left">
-                                <!--Start Google-map -->
-                                <div id="myMap"></div>
-                                <!--/End Google-map -->
+                            <div class="contact-us-left"> 
+                                <!-- Updated Google Maps integration -->
+                                <div id="map-container">
+                                    <!-- Google Maps API Loader -->
+                                    <script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
+                                    <gmpx-api-loader key="AIzaSyC7HP_vyGuAV8RLc2YROmHK-HgkMcIcaJE" solution-channel="GMP_GE_mapsandplacesautocomplete_v2"></gmpx-api-loader>
+                                    <!-- Google Map with Place Picker -->
+                                    <gmp-map center="-29.8487623415399, 30.98933482691317" zoom="13" map-id="DEMO_MAP_ID">
+                                        <div slot="control-block-start-inline-start" class="place-picker-container">
+                                            <gmpx-place-picker placeholder="Search for a location"></gmpx-place-picker>
+                                        </div>
+                                        <gmp-advanced-marker position="-29.8487623415399, 30.98933482691317" title="Nqabeni Tech Innovations"></gmp-advanced-marker>
+                                    </gmp-map>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -460,16 +491,46 @@
         <!-- Magnific Popup JS -->
         <script src="js/jquery.magnific-popup.min.js"></script>
         <!-- Counter Up CDN JS -->
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-        <!-- Google Map API Key JS -->
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyDGqTyqoPIvYxhn_Sa7ZrK5bENUWhpCo0w"></script>
-        <!-- Gmaps JS -->
-        <script src="js/gmaps.min.js"></script>
-        <!-- Map Active JS -->
-        <script src="js/map-active.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
         <!-- Bootstrap JS -->
         <script src="js/bootstrap.min.js"></script>
         <!-- Main JS -->
         <script src="js/main.js"></script>
+        
+        <!-- Google Maps JavaScript -->
+        <script>
+            // This script handles the advanced marker interaction
+            document.addEventListener('DOMContentLoaded', function() {
+                // This code will run once the Google Maps API and components are loaded
+                const placePicker = document.querySelector('gmpx-place-picker');
+                const map = document.querySelector('gmp-map');
+                const marker = document.querySelector('gmp-advanced-marker');
+                
+                if (placePicker && map && marker) {
+                    // When a place is selected from the place picker
+                    placePicker.addEventListener('gmpx-placechange', (event) => {
+                        // Get the selected place
+                        const place = event.detail.place;
+                        
+                        if (place && place.geometry && place.geometry.location) {
+                            // Get the coordinates
+                            const lat = place.geometry.location.lat;
+                            const lng = place.geometry.location.lng;
+                            
+                            // Update the map center
+                            map.center = {lat, lng};
+                            
+                            // Update the marker position
+                            marker.position = {lat, lng};
+                            
+                            // Update marker title if place has a name
+                            if (place.name) {
+                                marker.title = place.name;
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
     </body>
 </html>
