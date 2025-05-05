@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nqabeni Tech Support Ticket Portal</title>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.ticket-portal {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.portal-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.portal-header h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.portal-header .company-name {
+    font-weight: bold;
+    color: #3498db;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 12px 24px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 16px;
+    color: #7f8c8d;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    background-color: #3498db;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+}
+
+button {
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.submit-success, .alert-error {
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: none;
+}
+
+.submit-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.ticket-list {
+    list-style: none;
+}
+
+.ticket-item {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ticket-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.ticket-item h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-status {
+    font-size: 14px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.status-open {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+}
+
+.status-in-progress {
+    background-color: #fff8e1;
+    color: #ff8f00;
+}
+
+.status-resolved {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.ticket-date {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 0;
+    color: #7f8c8d;
+}
+
+.empty-state p {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.empty-state img {
+    max-width: 150px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.search-box {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.search-box input {
+    padding-left: 40px;
+}
+
+.search-box::before {
+    content: "🔍";
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    color: #aaa;
+}
+
+.summary-section {
+    background-color: #f0f7ff;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #d0e3ff;
+}
+
+.summary-section h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 18px;
+}
+
+.summary-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.category-breakdown {
+    margin-top: 15px;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid #e1e1e1;
+}
+
+.category-name {
+    font-weight: 500;
+}
+
+.price-note {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.ticket-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-update {
+    background-color: #f39c12;
+}
+
+.btn-update:hover {
+    background-color: #e67e22;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #aaa;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 20px;
+}
+
+.update-list {
+    list-style: none;
+    margin-top: 15px;
+}
+
+.update-item {
+    padding: 10px;
+    border-left: 3px solid #3498db;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+.update-date {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.update-message {
+    margin-bottom: 5px;
+}
+
+.update-status {
+    font-size: 14px;
+}
+
+.status-tag {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.ticket-updates {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed #ddd;
+}
+
+.ticket-updates h4 {
+    margin-bottom: 10px;
+}
+
+.tracking-info {
+    margin-bottom: 20px;
+}
+
+.tracking-timeline {
+    position: relative;
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 2px solid #ddd;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-item:before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #3498db;
+}
+
+.timeline-date {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.timeline-event {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.btn-track {
+    background-color: #2ecc71;
+}
+
+.btn-track:hover {
+    background-color: #27ae60;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab {
+        width: 100%;
+        text-align: center;
+    }
+
+    .summary-details {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal {
+        width: 95%;
+        max-height: 90vh;
+    }
+}
+</style>
+</head>
+<body>
+<div class="ticket-portal" id="ticketPortal">
+<div class="portal-header">
+    <h1><span class="company-name">Nqabeni Tech</span> Support Ticket Portal</h1>
+    <p>Submit and track your support requests in one place</p>
+</div>
+
+<div class="tabs">
+    <button class="tab active" data-tab="submit">Submit Ticket</button>
+    <button class="tab" data-tab="view">View Tickets</button>
+    <button class="tab" data-tab="faq">FAQs</button>
+</div>
+
+<!-- Submit Ticket Tab -->
+<div class="tab-content active" id="submit">
+    <form id="ticketForm">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" required>
+                <option value="">Select a category</option>
+                <option value="legal-tech">Legal Tech</option>
+                <option value="web-application">Web Application</option>
+                <option value="coding-robotics">Coding & Robotics</option>
+                <option value="power-bi-analytics">Power BI & Analytics</option>
+                <option value="it-consultation">IT Consultation</option>
+                <option value="ai-machine-learning">AI & Machine Learning</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="priority">Priority</label>
+            <select id="priority" required>
+                <option value="">Select priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" required placeholder="Please describe your issue in detail..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="amount">Amount (per hour)</label>
+            <input type="number" id="amount" min="0" step="0.01" required readonly>
+            <p class="price-note" id="priceNote">Select a category and priority to see the price</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="client">Client Name/Company</label>
+            <input type="text" id="client" required placeholder="Enter client name or company">
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="e.g. 071 234 5678">
+        </div>
+        
+        <button type="submit" id="submitButton">Submit Ticket</button>
+    </form>
+    
+    <div class="submit-success" id="submitSuccess">
+        Your ticket has been submitted successfully! We'll get back to you soon.
+        <div id="ticketDetails"></div>
+    </div>
+    
+    <div class="alert-error" id="submitError">
+        There was an error submitting your ticket. Please try again.
+    </div>
+</div>
+
+<!-- View Tickets Tab -->
+<div class="tab-content" id="view">
+    <div id="loginView">
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ticketId">Ticket ID (optional)</label>
+                <input type="text" id="ticketId" placeholder="To check a specific ticket">
+            </div>
+            
+            <button type="submit">View My Tickets</button>
+        </form>
+    </div>
+    
+    <div id="ticketsView" style="display: none;">
+        <div class="search-box">
+            <input type="text" id="searchTickets" placeholder="Search tickets...">
+        </div>
+        
+        <div id="loadingTickets" class="loading">
+            <div class="spinner"></div>
+            <p>Loading your tickets...</p>
+        </div>
+        
+        <div id="summarySection" class="summary-section" style="display: none;">
+            <h3>Summary</h3>
+            <div class="summary-details">
+                <div>Total Tickets: <span id="totalTickets">0</span></div>
+                <div>Total Amount: R<span id="totalAmount">0.00</span></div>
+            </div>
+            <div class="category-breakdown" id="categoryBreakdown">
+                <!-- Category breakdown will be populated here -->
+            </div>
+        </div>
+        
+        <ul class="ticket-list" id="ticketList">
+            <!-- Tickets will be populated here -->
+        </ul>
+        
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <p>You don't have any tickets yet.</p>
+            <button id="createTicketBtn">Create New Ticket</button>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Tab -->
+<div class="tab-content" id="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+        <div class="faq-item">
+            <h3>How long does it take to get a response?</h3>
+            <p>We aim to respond to all tickets within 24 hours. High priority tickets may receive a faster response.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How is pricing calculated?</h3>
+            <p>Pricing is based on the category of service you need and the priority level. Higher priority tickets have a multiplier applied to the base price.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Can I update my ticket after submission?</h3>
+            <p>Yes, you can view your tickets and add additional information or change the priority if needed.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What payment methods do you accept?</h3>
+            <p>We accept bank transfers, credit cards, and mobile payment options. Payment details will be provided after ticket submission.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Update Modal -->
+<div class="modal-overlay" id="updateModal">
+    <div class="modal">
+        <button class="modal-close" id="closeUpdateModal">&times;</button>
+        <h2 class="modal-title">Update Ticket</h2>
+        <form id="updateTicketForm">
+            <input type="hidden" id="updateTicketId">
+            
+            <div class="form-group">
+                <label for="updateMessage">Additional Information</label>
+                <textarea id="updateMessage" required placeholder="Enter additional information or updates about your issue..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="updatePriority">Change Priority (optional)</label>
+                <select id="updatePriority">
+                    <option value="">Keep current priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            
+            <button type="submit" id="submitUpdateButton">Submit Update</button>
+        </form>
+    </div>
+</div>
+
+<!-- Tracking Modal -->
+<div class="modal-overlay" id="trackingModal">
+    <div class="modal">
+        <button class="modal-close" id="closeTrackingModal">&times;</button>
+        <h2 class="modal-title">Ticket Progress</h2>
+        <div class="tracking-info">
+            <p><strong>Ticket ID:</strong> <span id="trackingTicketId"></span></p>
+            <p><strong>Status:</strong> <span id="trackingStatus"></span></p>
+            <p><strong>Last Updated:</strong> <span id="trackingLastUpdate"></span></p>
+        </div>
+        
+        <h3>Progress Timeline</h3>
+        <div class="tracking-timeline" id="trackingTimeline">
+            <!-- Timeline items will be populated here -->
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyAB0RIf6x4s7wm8YENeQEQZcPBVqEehM3g",
+    authDomain: "nqabeni-tech.firebaseapp.com",
+    projectId: "nqabeni-tech",
+    storageBucket: "nqabeni-tech.appspot.com",
+    messagingSenderId: "903874696112",
+    appId: "1:903874696112:web:c6c3354d45300f79fefc75",
+    measurementId: "G-RLH6JP49Z0"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Pricing configuration
+const PRICING = {
+    'legal-tech': {
+        base: 500,
+        'low': 1.0,    // Multiplier for low priority
+        'medium': 1.2, // Multiplier for medium priority
+        'high': 1.5    // Multiplier for high priority
+    },
+    'web-application': {
+        base: 400,
+        'low': 1.0,
+        'medium': 1.25,
+        'high': 1.6
+    },
+    'coding-robotics': {
+        base: 250,
+        'low': 1.0,
+        'medium': 1.3,
+        'high': 1.7
+    },
+    'power-bi-analytics': {
+        base: 450,
+        'low': 1.0,
+        'medium': 1.2,
+        'high': 1.4
+    },
+    'it-consultation': {
+        base: 400,
+        'low': 1.0,
+        'medium': 1.15,
+        'high': 1.35
+    },
+    'ai-machine-learning': {
+        base: 400,
+        'low': 1.0,
+        'medium': 1.3,
+        'high': 1.8
+    }
+};
+
+// Update amount based on category and priority selections
+function updateAmount() {
+    const categorySelect = document.getElementById('category');
+    const prioritySelect = document.getElementById('priority');
+    const amountInput = document.getElementById('amount');
+    const priceNote = document.getElementById('priceNote');
+    
+    const category = categorySelect.value;
+    const priority = prioritySelect.value;
+    
+    if (category && priority && PRICING[category]) {
+        const basePrice = PRICING[category].base;
+        const priorityMultiplier = PRICING[category][priority];
+        const finalPrice = basePrice * priorityMultiplier;
+        
+        amountInput.value = finalPrice.toFixed(2);
+        
+        // Format category for display
+        const categoryDisplay = category.replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+        
+        priceNote.textContent = `Base price: R${basePrice.toFixed(2)} × ${priority} priority (${priorityMultiplier}x) = R${finalPrice.toFixed(2)}`;
+    } else {
+        amountInput.value = '';
+        priceNote.textContent = 'Select a category and priority to see the price';
+    }
+}
+
+// Add event listeners for price calculation
+document.getElementById('category').addEventListener('change', updateAmount);
+document.getElementById('priority').addEventListener('change', updateAmount);
+
+// Tab functionality
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        // Hide all tab content
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        // Show corresponding tab content
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+
+// Submit form functionality with Firebase
+const ticketForm = document.getElementById('ticketForm');
+const submitSuccess = document.getElementById('submitSuccess');
+const submitError = document.getElementById('submitError');
+const submitButton = document.getElementById('submitButton');
+const ticketDetails = document.getElementById('ticketDetails');
+
+ticketForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Disable submit button and show loading state
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+    
+    // Get form values
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const category = document.getElementById('category').value;
+    const priority = document.getElementById('priority').value;
+    const description = document.getElementById('description').value;
+    const amount = parseFloat(document.getElementById('amount').value);
+    
+    // Generate a ticket ID - current timestamp + random number
+    const ticketId = 'NQT-' + Date.now().toString().substring(6) + Math.floor(Math.random() * 1000);
+    
+    // Get additional form values
+    const client = document.getElementById('client').value;
+    const phone = document.getElementById('phone').value;
+    
+    // Create new ticket object
+    const newTicket = {
+        id: ticketId,
+        subject: subject,
+        description: description,
+        status: 'open',
+        category: category,
+        priority: priority,
+        created: firebase.firestore.Timestamp.now(),
+        email: email,
+        name: name,
+        client: client,
+        phone: phone || 'Not provided',
+        amount: amount,
+        updates: [],
+        lastUpdated: firebase.firestore.Timestamp.now()
+    };
+    
+    // Add ticket to Firestore
+    db.collection('tickets').doc(ticketId).set(newTicket)
+        .then(() => {
+            // Show success message
+            submitSuccess.style.display = 'block';
+            submitError.style.display = 'none';
+            
+            // Add ticket details to success message
+            ticketDetails.innerHTML = `
+                <p><strong>Ticket ID:</strong> ${ticketId}</p>
+                <p>Please save this ID for your reference.</p>
+            `;
+            
+            // Reset form
+            ticketForm.reset();
+            
+            // Reset submit button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Ticket';
+            
+            // Send email notification (would require server-side code in production)
+            console.log(`Email notification would be sent to ${email} for ticket ${ticketId}`);
+        })
+        .catch((error) => {
+            // Show error message
+            submitError.style.display = 'block';
+            submitSuccess.style.display = 'none';
+            submitError.textContent = `Error: ${error.message}`;
+            
+            // Reset submit button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Ticket';
+        });
+});
+
+// Login form functionality
+const loginForm = document.getElementById('loginForm');
+const loginView = document.getElementById('loginView');
+const ticketsView = document.getElementById('ticketsView');
+const loadingTickets = document.getElementById('loadingTickets');
+const summarySection = document.getElementById('summarySection');
+const emptyState = document.getElementById('emptyState');
+
+loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const ticketId = document.getElementById('ticketId').value;
+    
+    // Show loading state
+    loginView.style.display = 'none';
+    ticketsView.style.display = 'block';
+    loadingTickets.style.display = 'block';
+    summarySection.style.display = 'none';
+    
+    // Create a query to Firestore
+    let query = db.collection('tickets').where('email', '==', email);
+    
+    // If ticket ID is provided, add it to the query
+    if (ticketId && ticketId.trim() !== '') {
+        query = db.collection('tickets').where('id', '==', ticketId);
+    }
+    
+    // Fetch tickets from Firestore
+    query.get()
+        .then((querySnapshot) => {
+            // Hide loading state
+            loadingTickets.style.display = 'none';
+            
+            if (querySnapshot.empty) {
+                // No tickets found
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            // Process tickets
+            const tickets = [];
+            querySnapshot.forEach((doc) => {
+                tickets.push(doc.data());
+            });
+            
+            // Display tickets and summary
+            displayTickets(tickets);
+            updateSummary(tickets);
+            
+            // Show summary section
+            summarySection.style.display = 'block';
+        })
+        .catch((error) => {
+            // Hide loading state
+            loadingTickets.style.display = 'none';
+            
+            // Show error message
+            alert(`Error retrieving tickets: ${error.message}`);
+        });
+});
+
+// Display tickets function
+function displayTickets(ticketsList) {
+    const ticketList = document.getElementById('ticketList');
+    
+    // Clear current tickets
+    ticketList.innerHTML = '';
+    
+    if (ticketsList.length === 0) {
+        // Show empty state
+        emptyState.style.display = 'block';
+        return;
+    }
+    
+    // Hide empty state
+    emptyState.style.display = 'none';
+    
+    // Sort tickets by creation date (newest first)
+    ticketsList.sort((a, b) => {
+        return b.created.seconds - a.created.seconds;
+    });
+    
+    // Add tickets to list
+    ticketsList.forEach(ticket => {
+        const li = document.createElement('li');
+        li.className = 'ticket-item';
+        
+        const statusClass = `status-${ticket.status.replace(' ', '-')}`;
+        
+        // Format date
+        const created = ticket.created.toDate ? ticket.created.toDate() : new Date(ticket.created);
+        const formattedDate = created.toLocaleString('en-ZA', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        // Format category for display
+        const categoryDisplay = ticket.category.replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+        
+        li.innerHTML = `
+            <h3>
+                ${ticket.subject} 
+                <span class="ticket-status ${statusClass}">${ticket.status}</span>
+            </h3>
+            <div class="ticket-date">
+                <strong>Ticket ID:</strong> ${ticket.id} | <strong>Created:</strong> ${formattedDate}
+            </div>
+            <p>${ticket.description}</p>
+            <div>
+                <strong>Category:</strong> ${categoryDisplay} | 
+                <strong>Priority:</strong> ${ticket.priority.charAt(0).toUpperCase() + ticket.priority.slice(1)} |
+                <strong>Amount:</strong> R${ticket.amount.toFixed(2)}
+            </div>
+            <div>
+                <strong>Client:</strong> ${ticket.client || 'Not specified'} | 
+                <strong>Contact:</strong> ${ticket.name} (${ticket.email})
+                ${ticket.phone ? ` | <strong>Phone:</strong> ${ticket.phone}` : ''}
+            </div>
+            <div class="ticket-actions">
+                <button class="btn-update" data-ticket-id="${ticket.id}">Update Ticket</button>
+                <button class="btn-track" data-ticket-id="${ticket.id}">Track Progress</button>
+            </div>
+            ${ticket.updates && ticket.updates.length > 0 ? `
+                <div class="ticket-updates">
+                    <h4>Updates (${ticket.updates.length})</h4>
+                    <ul class="update-list">
+                        ${ticket.updates.map(update => `
+                            <li class="update-item">
+                                <div class="update-date">${new Date(update.timestamp.seconds * 1000).toLocaleString('en-ZA')}</div>
+                                <div class="update-message">${update.message}</div>
+                                ${update.status ? `<div class="update-status">Status changed to: <span class="status-tag status-${update.status}">${update.status}</span></div>` : ''}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+        `;
+        
+        ticketList.appendChild(li);
+    });
+    
+    // Add event listeners to update buttons
+    document.querySelectorAll('.btn-update').forEach(button => {
+        button.addEventListener('click', function() {
+            const ticketId = this.getAttribute('data-ticket-id');
+            showUpdateModal(ticketId);
+        });
+    });
+    
+    // Add event listeners to track buttons
+    document.querySelectorAll('.btn-track').forEach(button => {
+        button.addEventListener('click', function() {
+            const ticketId = this.getAttribute('data-ticket-id');
+            showTrackingModal(ticketId);
+        });
+    });
+}
+
+// Update summary function
+function updateSummary(tickets) {
+    const totalTickets = document.getElementById('totalTickets');
+    const totalAmount = document.getElementById('totalAmount');
+    const categoryBreakdown = document.getElementById('categoryBreakdown');
+    
+    // Calculate totals
+    const total = tickets.length;
+    const amount = tickets.reduce((sum, ticket) => sum + ticket.amount, 0);
+    
+    // Update summary text
+    totalTickets.textContent = total;
+    totalAmount.textContent = amount.toFixed(2);
+    
+    // Calculate category breakdown
+    const categories = {};
+    
+    tickets.forEach(ticket => {
+        const category = ticket.category;
+        if (!categories[category]) {
+            categories[category] = {
+                count: 0,
+                amount: 0
+            };
+        }
+        
+        categories[category].count++;
+        categories[category].amount += ticket.amount;
+    });
+    
+    // Clear current breakdown
+    categoryBreakdown.innerHTML = '';
+    
+    // Add categories to breakdown
+    Object.keys(categories).forEach(category => {
+        const categoryDisplay = category.replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+        
+        const div = document.createElement('div');
+        div.className = 'category-item';
+        div.innerHTML = `
+            <span class="category-name">${categoryDisplay}</span>
+            <span>${categories[category].count} tickets - R${categories[category].amount.toFixed(2)}</span>
+        `;
+        
+        categoryBreakdown.appendChild(div);
+    });
+}
+
+// Search functionality
+const searchInput = document.getElementById('searchTickets');
+
+searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase();
+    const email = document.getElementById('loginEmail').value;
+    
+    // Get all ticket items
+    const ticketItems = document.querySelectorAll('.ticket-item');
+    
+    // Filter tickets by search query
+    ticketItems.forEach(item => {
+        const subject = item.querySelector('h3').textContent.toLowerCase();
+        const description = item.querySelector('p').textContent.toLowerCase();
+        const ticketId = item.querySelector('.ticket-date').textContent.toLowerCase();
+        
+        if (subject.includes(query) || description.includes(query) || ticketId.includes(query)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+
+// Create new ticket button
+document.getElementById('createTicketBtn').addEventListener('click', function() {
+    // Switch to submit ticket tab
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab[data-tab="submit"]').classList.add('active');
+    
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    document.getElementById('submit').classList.add('active');
+});
+
+// Additional helper functions for formatting
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-ZA', {
+        style: 'currency',
+        currency: 'ZAR',
+        minimumFractionDigits: 2
+    }).format(amount);
+}
+
+// Update Modal Functions
+function showUpdateModal(ticketId) {
+    const updateModal = document.getElementById('updateModal');
+    const updateTicketId = document.getElementById('updateTicketId');
+    
+    // Set ticket ID
+    updateTicketId.value = ticketId;
+    
+    // Show modal
+    updateModal.style.display = 'flex';
+}
+
+document.getElementById('closeUpdateModal').addEventListener('click', function() {
+    document.getElementById('updateModal').style.display = 'none';
+});
+
+document.getElementById('updateTicketForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const ticketId = document.getElementById('updateTicketId').value;
+    const message = document.getElementById('updateMessage').value;
+    const priority = document.getElementById('updatePriority').value;
+    const submitUpdateButton = document.getElementById('submitUpdateButton');
+    
+    // Disable submit button
+    submitUpdateButton.disabled = true;
+    submitUpdateButton.textContent = 'Submitting...';
+    
+    // Create update object
+    const update = {
+        timestamp: firebase.firestore.Timestamp.now(),
+        message: message
+    };
+    
+    // Reference to the ticket document
+    const ticketRef = db.collection('tickets').doc(ticketId);
+    
+    // Get the ticket data
+    ticketRef.get().then((doc) => {
+        if (doc.exists) {
+            const ticketData = doc.data();
+            
+            // Create updates array if it doesn't exist
+            if (!ticketData.updates) {
+                ticketData.updates = [];
+            }
+            
+            // Add the new update
+            ticketData.updates.push(update);
+            
+            // Update the lastUpdated timestamp
+            ticketData.lastUpdated = firebase.firestore.Timestamp.now();
+            
+            // Update priority if specified
+            if (priority) {
+                ticketData.priority = priority;
+                
+                // Update amount based on new priority
+                if (PRICING[ticketData.category] && PRICING[ticketData.category][priority]) {
+                    const basePrice = PRICING[ticketData.category].base;
+                    const priorityMultiplier = PRICING[ticketData.category][priority];
+                    ticketData.amount = basePrice * priorityMultiplier;
+                }
+                
+                // Add priority change to update
+                update.priority = priority;
+            }
+            
+            // Update the ticket in Firestore
+            return ticketRef.update({
+                updates: ticketData.updates,
+                lastUpdated: ticketData.lastUpdated,
+                priority: ticketData.priority,
+                amount: ticketData.amount
+            });
+        } else {
+            throw new Error('Ticket not found');
+        }
+    }).then(() => {
+        // Close modal
+        document.getElementById('updateModal').style.display = 'none';
+        
+        // Reset form
+        document.getElementById('updateTicketForm').reset();
+        
+        // Enable submit button
+        submitUpdateButton.disabled = false;
+        submitUpdateButton.textContent = 'Submit Update';
+        
+        // Refresh ticket list
+        const email = document.getElementById('loginEmail').value;
+        refreshTickets(email);
+        
+        // Show success message
+        alert('Ticket updated successfully');
+    }).catch((error) => {
+        // Enable submit button
+        submitUpdateButton.disabled = false;
+        submitUpdateButton.textContent = 'Submit Update';
+        
+        // Show error message
+        alert(`Error updating ticket: ${error.message}`);
+    });
+});
+
+// Tracking Modal Functions
+function showTrackingModal(ticketId) {
+    const trackingModal = document.getElementById('trackingModal');
+    const trackingTicketId = document.getElementById('trackingTicketId');
+    const trackingStatus = document.getElementById('trackingStatus');
+    const trackingLastUpdate = document.getElementById('trackingLastUpdate');
+    const trackingTimeline = document.getElementById('trackingTimeline');
+    
+    // Set ticket ID
+    trackingTicketId.textContent = ticketId;
+    
+    // Clear timeline
+    trackingTimeline.innerHTML = '';
+    
+    // Show loading state
+    trackingStatus.textContent = 'Loading...';
+    trackingLastUpdate.textContent = 'Loading...';
+    
+    // Show modal
+    trackingModal.style.display = 'flex';
+    
+    // Get ticket data
+    db.collection('tickets').doc(ticketId).get()
+        .then((doc) => {
+            if (doc.exists) {
+                const ticket = doc.data();
+                
+                // Set tracking info
+                trackingStatus.textContent = ticket.status;
+                
+                const lastUpdated = ticket.lastUpdated ? 
+                    ticket.lastUpdated.toDate().toLocaleString('en-ZA') : 
+                    ticket.created.toDate().toLocaleString('en-ZA');
+                    
+                trackingLastUpdate.textContent = lastUpdated;
+                
+                // Create timeline events
+                const events = [];
+                
+                // Add creation event
+                events.push({
+                    date: ticket.created.toDate(),
+                    event: 'Ticket Created',
+                    details: `Ticket submitted with ${ticket.priority} priority`
+                });
+                
+                // Add update events
+                if (ticket.updates && ticket.updates.length > 0) {
+                    ticket.updates.forEach(update => {
+                        const updateDate = update.timestamp.toDate();
+                        let eventText = 'Update Added';
+                        
+                        if (update.status) {
+                            eventText = `Status changed to ${update.status}`;
+                        } else if (update.priority) {
+                            eventText = `Priority changed to ${update.priority}`;
+                        }
+                        
+                        events.push({
+                            date: updateDate,
+                            event: eventText,
+                            details: update.message
+                        });
+                    });
+                }
+                
+                // Sort events by date (newest first)
+                events.sort((a, b) => b.date - a.date);
+                
+                // Add events to timeline
+                events.forEach(event => {
+                    const formattedDate = event.date.toLocaleString('en-ZA');
+                    
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = 'timeline-item';
+                    timelineItem.innerHTML = `
+                        <div class="timeline-date">${formattedDate}</div>
+                        <div class="timeline-event">
+                            <strong>${event.event}</strong>
+                            <p>${event.details}</p>
+                        </div>
+                    `;
+                    
+                    trackingTimeline.appendChild(timelineItem);
+                });
+            } else {
+                trackingStatus.textContent = 'Ticket not found';
+                trackingLastUpdate.textContent = 'N/A';
+            }
+        })
+        .catch((error) => {
+            trackingStatus.textContent = 'Error';
+            trackingLastUpdate.textContent = 'N/A';
+            
+            // Show error message
+            alert(`Error retrieving ticket: ${error.message}`);
+        });
+}
+
+document.getElementById('closeTrackingModal').addEventListener('click', function() {
+    document.getElementById('trackingModal').style.display = 'none';
+});
+
+// Function to refresh tickets
+function refreshTickets(email) {
+    // Show loading state
+    document.getElementById('loadingTickets').style.display = 'block';
+    document.getElementById('summarySection').style.display = 'none';
+    
+    // Create a query to Firestore
+    const query = db.collection('tickets').where('email', '==', email);
+    
+    // Fetch tickets from Firestore
+    query.get()
+        .then((querySnapshot) => {
+            // Hide loading state
+            document.getElementById('loadingTickets').style.display = 'none';
+            
+            if (querySnapshot.empty) {
+                // No tickets found
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+            
+            // Process tickets
+            const tickets = [];
+            querySnapshot.forEach((doc) => {
+                tickets.push(doc.data());
+            });
+            
+            // Display tickets and summary
+            displayTickets(tickets);
+            updateSummary(tickets);
+            
+            // Show summary section
+            document.getElementById('summarySection').style.display = 'block';
+        })
+        .catch((error) => {
+            // Hide loading state
+            document.getElementById('loadingTickets').style.display = 'none';
+            
+            // Show error message
+            alert(`Error retrieving tickets: ${error.message}`);
+        });
+}
+
+// Close modals when clicking outside
+window.addEventListener('click', function(event) {
+    const updateModal = document.getElementById('updateModal');
+    const trackingModal = document.getElementById('trackingModal');
+    
+    if (event.target === updateModal) {
+        updateModal.style.display = 'none';
+    }
+    
+    if (event.target === trackingModal) {
+        trackingModal.style.display = 'none';
+    }
+});
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Nqabeni Tech Support Portal initialized');
+    
+    // Check if Firebase is connected
+    if (firebase.apps.length) {
+        console.log('Connected to Firebase');
+    } else {
+        console.error('Failed to connect to Firebase');
+    }
+});
+</script>
+</body>
